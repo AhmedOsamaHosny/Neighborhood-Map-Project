@@ -1,0 +1,35 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neighbourhood project</title>
+  <meta name="description" content="">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-xs-2 col-lg-2 vertical-menu decoration">
+      <div class="form-group">
+        <label for="usr">Search for a place ...</label>
+        <input type="text" class="form-control" id="usr" data-bind="value: search" />
+      </div>
+      <ul data-bind="foreach: displayedMarkers">
+        <li><a href="#" data-bind="text: title, click: $parent.chooseMarker"></a></li>
+      </ul>
+    </div>
+    <div class="col-xs-10 col-lg-10" id="map"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+  <script src="js/app.js"></script>
+  <!--TODO: Load the JS API ASYNCHRONOUSLY below.-->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeAtd7f7WhE8U4_NS-G_QN996qHZ11ErY&v=3&callback=initMap">
+  </script>
+</body>
+
+</html>
