@@ -55,7 +55,6 @@ function initMap() {
     },
     zoom: 13
   });
-
   //This loop creates our markers for the locations we have.
   for (var i = 0; i < locations.length; i++) {
     var location = locations[i];
@@ -76,57 +75,63 @@ function initMap() {
     marker.infowindow = new google.maps.InfoWindow({
       content: "Loading..."
     });
-    //This is the code to be excuted once the marker is clicked on.
-    marker.addListener('click', function() {
-      //close all open markers to open the new one later.
-      for (var j = 0; j < markers.length; j++) {
-        markers[j].infowindow.close();
-        markers[j].setAnimation(null);
-      }
-      var thisMarker = this;
-      //This is an ajax call that fetches info from Wikipedia api.
-      $.ajax({
-        type: 'GET',
-        url: 'https://de.wikipedia.org/w/api.php',
-        data: {
-          origin: '*',
-          format: 'json',
-          action: 'query',
-          prop: 'extracts',
-          exintro: '',
-          exsentences: '3',
-          explaintext: '',
-          titles: thisMarker.searchPhrase
-        },
-        dataType: 'json',
-        success: function(data) {
-          //Set the markers info window content to be the api reques result.
-          var id = Object.keys(data.query.pages)[0];
-          thisMarker.infowindow.setContent(data.query.pages[id].extract);
-        }
-      });
+    //This adds the click listener to the marker.
+    addMarkerListener(marker);
+  }
 
-      //If the marker has no bouncing animation this adds one.
-      if (thisMarker.getAnimation() !== null) {
-        thisMarker.setAnimation(null);
-      } else {
-        thisMarker.setAnimation(google.maps.Animation.BOUNCE);
-      }
-
-      //This sets the action of closing the info window to stoping the animation too.
-      thisMarker.infowindow.addListener('closeclick', function() {
-        thisMarker.setAnimation(null);
-      });
-
-      //This opens the clicked marker info window.
-      thisMarker.infowindow.open(map, this);
+  function addMarkerListener(marker){
+    marker.addListener('click', function(){
+      markerClickAction(this);
     });
   }
 
+  //This is the code to be excuted once the marker is clicked on.
+  function markerClickAction(thisMarker) {
+    //close all open markers to open the new one later.
+    for (var j = 0; j < markers.length; j++) {
+      markers[j].infowindow.close();
+      markers[j].setAnimation(null);
+    }
+    //This is an ajax call that fetches info from Wikipedia api.
+    $.ajax({
+      type: 'GET',
+      url: 'https://de.wikipedia.org/w/api.php',
+      data: {
+        origin: '*',
+        format: 'json',
+        action: 'query',
+        prop: 'extracts',
+        exintro: '',
+        exsentences: '3',
+        explaintext: '',
+        titles: thisMarker.searchPhrase
+      },
+      dataType: 'json',
+      success: function(data) {
+        //Set the markers info window content to be the api reques result.
+        var id = Object.keys(data.query.pages)[0];
+        thisMarker.infowindow.setContent(data.query.pages[id].extract);
+      }
+    });
 
+    //If the marker has no bouncing animation this adds one.
+    if (thisMarker.getAnimation() !== null) {
+      thisMarker.setAnimation(null);
+    } else {
+      thisMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    //This sets the action of closing the info window to stoping the animation too.
+    thisMarker.infowindow.addListener('closeclick', function() {
+      thisMarker.setAnimation(null);
+    });
+
+    //This opens the clicked marker info window.
+    thisMarker.infowindow.open(map, thisMarker);
+  }
+
+  //This is the viewModel used by knockout
   function viewModel() {
-    //This is the viewModel used by knockout
-
     var self = this;
 
     //The search bar is being observed by knockout for any changes
@@ -134,22 +139,22 @@ function initMap() {
 
     //This computes the list of markers to be displayed in the side bar
     self.displayedMarkers = ko.computed(function() {
-      for (var i = 0; i < markers.length; i++) {
-        markers[i].setVisible(false);
-        markers[i].infowindow.close()
+      for (var k = 0; k < markers.length; k++) {
+        markers[k].setVisible(false);
+        markers[k].infowindow.close();
       }
       var displayedMarkers = [];
       if (self.search() === "") {
-        for (var i = 0; i < markers.length; i++) {
-          displayedMarkers.push(markers[i])
-          markers[i].setVisible(true);
+        for (var l = 0; l < markers.length; l++) {
+          displayedMarkers.push(markers[l]);
+          markers[l].setVisible(true);
         }
         return displayedMarkers;
       } else {
-        for (var i = 0; i < markers.length; i++) {
-          if (markers[i].title.toUpperCase().includes(self.search().toUpperCase())) {
-            displayedMarkers.push(markers[i])
-            markers[i].setVisible(true);
+        for (var m = 0; m < markers.length; m++) {
+          if (markers[m].title.toUpperCase().includes(self.search().toUpperCase())) {
+            displayedMarkers.push(markers[m]);
+            markers[m].setVisible(true);
           }
         }
         return displayedMarkers;
