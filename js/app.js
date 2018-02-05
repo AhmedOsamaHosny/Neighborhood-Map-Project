@@ -164,7 +164,7 @@ function initMap() {
     //This function triggers the marker once clicked on its name in the side bar
     self.chooseMarker = function(marker) {
       new google.maps.event.trigger(marker, 'click');
-    }
+    };
   }
 
   //This binds our viewModel with the view
