@@ -10,7 +10,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 </head>
-
 <body>
   <div class="row">
     <div class="col-xs-3 col-lg-3 vertical-menu decoration">
@@ -28,8 +27,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
   <script src="js/app.js"></script>
   <!--TODO: Load the JS API ASYNCHRONOUSLY below.-->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeAtd7f7WhE8U4_NS-G_QN996qHZ11ErY&v=3&callback=initMap">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeAtd7f7WhE8U4_NS-G_QN996qHZ11ErY&v=3&callback=initMap" onerror="mapError()">
   </script>
 </body>
-
 </html>
