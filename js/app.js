@@ -1,4 +1,3 @@
-
 //This is the map to be created later.
 var map;
 //This is an array of diffrent locations we wish to add markers to.
@@ -112,6 +111,8 @@ function initMap() {
         var id = Object.keys(data.query.pages)[0];
         thisMarker.infowindow.setContent(data.query.pages[id].extract);
       }
+    }).fail(function( xhr, status, errorThrown ) {
+      alert( "Sorry, there was a problem!\nError: "+errorThrown+"\nStatus: "+status );
     });
 
     //If the marker has no bouncing animation this adds one.
@@ -169,5 +170,9 @@ function initMap() {
 
   //This binds our viewModel with the view
   ko.applyBindings(new viewModel());
+}
 
+//This function is triggered if an error occurs while loading the map.
+function mapError(){
+  alert("Error while loading map.");
 }
